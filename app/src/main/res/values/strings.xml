@@ -8,4 +8,5 @@
     <string name="create_a_new_account">Create a new account</string>
     <string name="confirm_password">Confirm password</string>
     <string name="sign_up">Sign Up</string>
+    <string name="qr_scanner">QR Scanner</string>
 </resources>
