@@ -4,13 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
     android:overScrollMode="always"
     android:scrollbars="none"
     tools:context="com.example.profilemanager.activities.MainActivity">
 
+   <FrameLayout
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/_70sdp"
+       android:background="@color/primary"
+       app:layout_constraintTop_toTopOf="parent">
 
-    <FrameLayout
+      <androidx.appcompat.widget.AppCompatImageView
+          android:id="@+id/ic_back"
+          android:layout_width="@dimen/_40sdp"
+          android:layout_height="@dimen/_40sdp"
+          android:layout_marginLeft="@dimen/_15sdp"
+          android:layout_marginTop="@dimen/_15sdp"
+          android:src="@drawable/ic_back">
+      </androidx.appcompat.widget.AppCompatImageView>
+
+      <TextView
+          android:id="@+id/textQrScanner"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:text="@string/qr_scanner"
+          android:textColor="@color/white"
+          android:textSize="@dimen/_30sdp"
+          android:gravity="center">
+      </TextView>
+
+
+   </FrameLayout>
+
+
+   <!-- <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_438sdp"
@@ -30,6 +57,8 @@
         </androidx.appcompat.widget.AppCompatImageView>
 
     </FrameLayout>
+
+    -->
 
 
 </ScrollView>
