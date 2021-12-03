@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.profilemanager">
 
-    <uses-permission android:name="android.permission.INTERNET">
-    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -13,11 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProfileManager">
         <activity
+            android:name=".activities.ScannerActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.SignUpActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
-
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name=".activities.SignInActivity"
             android:exported="true"
@@ -28,21 +28,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:name=".activities.MainActivity"
+            android:exported="true"></activity>
 
         <service
             android:name=".firebase.MessagingService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-
     </application>
 
 </manifest>

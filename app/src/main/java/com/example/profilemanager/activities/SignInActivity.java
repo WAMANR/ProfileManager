@@ -8,8 +8,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.profilemanager.MainActivity;
-import com.example.profilemanager.activities.SignUpActivity;
 import com.example.profilemanager.databinding.ActivitySignInBinding;
 import com.example.profilemanager.utilities.Constants;
 import com.example.profilemanager.utilities.PreferenceManager;

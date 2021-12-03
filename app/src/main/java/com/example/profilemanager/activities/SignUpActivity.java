@@ -9,7 +9,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.profilemanager.MainActivity;
 import com.example.profilemanager.databinding.ActivitySignUpBinding;
 import com.example.profilemanager.utilities.Constants;
 import com.example.profilemanager.utilities.PreferenceManager;
