@@ -14,6 +14,10 @@ import com.example.profilemanager.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class SignInActivity extends AppCompatActivity {
 
     private ActivitySignInBinding binding;
@@ -39,17 +43,37 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), SignUpActivity.class)));
         binding.buttonSignIn.setOnClickListener(v -> {
             if(isValidSignInDetails()){
-                signIn();
+                try {
+                    signIn();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    private void signIn(){
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if(hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
+    private void signIn() throws NoSuchAlgorithmException {
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
+        String pass = binding.inputPassword.getText().toString();
+        final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] enchant = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
+        pass = bytesToHex(enchant);
         database.collection(Constants.KEY_COLLECTION_USERS)
                 .whereEqualTo(Constants.KEY_EMAIL, binding.inputEmail.getText().toString())
-                .whereEqualTo(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString())
+                .whereEqualTo(Constants.KEY_PASSWORD, pass)
                 .get()
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0){

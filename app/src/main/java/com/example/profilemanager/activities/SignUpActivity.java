@@ -1,6 +1,9 @@
 package com.example.profilemanager.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +38,11 @@ public class SignUpActivity extends AppCompatActivity {
         binding.textSignIn.setOnClickListener(v -> onBackPressed());
         binding.buttonSignUp.setOnClickListener(v -> {
             if(isValidSignUpDetails()){
-                signUp();
+                try {
+                    signUp();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -44,12 +51,28 @@ public class SignUpActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private void signUp(){
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if(hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
+    private void signUp() throws NoSuchAlgorithmException {
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         HashMap<String, Object> user = new HashMap<>();
+        String pass = binding.inputPassword.getText().toString();
+        final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] enchant = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
+        pass = bytesToHex(enchant);
         user.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
-        user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
+        user.put(Constants.KEY_PASSWORD, pass);
         database.collection(Constants.KEY_COLLECTION_USERS)
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
