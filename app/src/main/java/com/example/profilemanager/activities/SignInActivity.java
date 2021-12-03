@@ -31,8 +31,8 @@ public class SignInActivity extends AppCompatActivity {
     private void addDataToFirestore(){
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         HashMap<String, Object> data = new HashMap<>();
-        data.put("first_name", "Adil");
-        data.put("last_name", "Rouichi");
+        data.put("first_name", "Théo");
+        data.put("last_name", "Montaigu");
         database.collection("users")
                 .add(data)
                 .addOnSuccessListener(documentReference -> {
