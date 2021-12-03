@@ -9,4 +9,8 @@
     <string name="confirm_password">Confirm password</string>
     <string name="sign_up">Sign Up</string>
     <string name="qr_scanner">QR Scanner</string>
+    <string name="profile">Profile</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="are_you_sure_to_logout">Are you sure to logout?</string>
 </resources>
