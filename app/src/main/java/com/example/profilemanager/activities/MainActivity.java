@@ -34,9 +34,18 @@ public class MainActivity extends AppCompatActivity {
            startActivity(intent);
            finish();
        });
-       binding.icScanner.setOnClickListener(v ->
-                startActivity(new Intent(getApplicationContext(), ScannerActivity.class)));
+       binding.icScanner.setOnClickListener(v ->{
+           Intent intent = new Intent(getApplicationContext(), ScannerActivity.class);
+           startActivity(intent);
+               }
     }
+
+    /*private void shareProfile(){
+
+        Intent share = new Intent(Intent.ACTION_SEND);
+        startActivity(share);
+
+    }*/
 
 
 }
