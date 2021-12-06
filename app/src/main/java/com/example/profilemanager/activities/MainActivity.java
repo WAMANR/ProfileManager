@@ -4,9 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
 import com.example.profilemanager.databinding.ActivityMainBinding;
 import com.example.profilemanager.utilities.Constants;
@@ -30,11 +27,6 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -106,13 +98,6 @@ public class MainActivity extends AppCompatActivity {
            try {
                genQrCode();
            } catch (WriterException e) {
-               e.printStackTrace();
-           }
-       });
-       binding.icShareQr.setOnClickListener(v -> {
-           try {
-               shareQrCode();
-           } catch (IOException e) {
                e.printStackTrace();
            }
        });

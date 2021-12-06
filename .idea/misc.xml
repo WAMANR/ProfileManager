@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/theom/AndroidStudioProjects/ProfileManager/app/src/main/res/drawable/background_corner_bottom.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/theom/AndroidStudioProjects/ProfileManager/app/src/main/res/drawable/background_corner_round.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/theom/AndroidStudioProjects/ProfileManager/app/src/main/res/drawable/ic_scanner.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/theom/AndroidStudioProjects/ProfileManager/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/theom/AndroidStudioProjects/ProfileManager/app/src/main/res/layout/activity_scanner.xml" value="0.1598731884057971" />
         <entry key="app/src/main/res/drawable/background_button_corner_round.xml" value="0.2140625" />
         <entry key="app/src/main/res/drawable/background_corner_bottom.xml" value="0.2140625" />
         <entry key="app/src/main/res/drawable/background_corner_round.xml" value="0.2140625" />
@@ -10,7 +15,7 @@
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.2796875" />
         <entry key="app/src/main/res/drawable/ic_scanner.xml" value="0.2140625" />
         <entry key="app/src/main/res/drawable/ic_share.xml" value="0.2828125" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_scanner.xml" value="0.2635416666666667" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.33" />
