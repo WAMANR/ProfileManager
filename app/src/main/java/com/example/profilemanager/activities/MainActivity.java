@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
             loadProfile(extras.getString("id"));
             disableEditText();
         }
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setListeners();
     }
 
