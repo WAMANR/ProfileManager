@@ -79,6 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
                     loading(false);
                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
                     preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+                    preferenceManager.putBoolean(Constants.KEY_USER_PROFILE, true);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

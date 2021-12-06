@@ -34,7 +34,19 @@
 
     </FrameLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/QrCodeTest"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_gravity="center">
+
+        </com.google.android.material.button.MaterialButton>
+
+    </FrameLayout>
 
 
 
