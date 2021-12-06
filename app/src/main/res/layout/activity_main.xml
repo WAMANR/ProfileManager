@@ -151,7 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="General Informations"
+                android:text="General Information"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/_20sdp"
                 app:layout_constraintTop_toTopOf="parent">
@@ -516,7 +516,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Adress informations"
+                android:text="Adress information"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/_20sdp"
                 app:layout_constraintTop_toBottomOf="@+id/generalInformationsContent">
