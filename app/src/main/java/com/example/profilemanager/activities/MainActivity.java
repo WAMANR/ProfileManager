@@ -2,9 +2,13 @@ package com.example.profilemanager.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -72,8 +76,14 @@ public class MainActivity extends AppCompatActivity {
            finish();
        });
        binding.icScanner.setOnClickListener(v ->{
-           Intent intent = new Intent(getApplicationContext(), ScannerActivity.class);
-           startActivity(intent);
+           if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)
+                   == PackageManager.PERMISSION_DENIED){
+               ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 12);
+           }
+           else {
+               Intent intent = new Intent(getApplicationContext(), ScannerActivity.class);
+               startActivity(intent);
+           }
                });
        binding.icBack.setOnClickListener(v -> {
            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
