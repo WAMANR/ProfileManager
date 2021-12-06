@@ -13,15 +13,15 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_70sdp"
             android:background="@drawable/background_corner_bottom">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ic_back"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_15sdp"
                 android:src="@drawable/ic_back" />
 
             <TextView
@@ -43,7 +43,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="590dp">
+                android:layout_height="match_parent">
 
                 <com.budiyev.android.codescanner.CodeScannerView
                     android:id="@+id/scanner_view"
@@ -63,11 +63,6 @@
                     app:maskColor="#77000000" />
             </FrameLayout>
 
-            <TextView
-                android:id="@+id/resultsOfQr"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/textview" />
         </LinearLayout>
     </LinearLayout>
 

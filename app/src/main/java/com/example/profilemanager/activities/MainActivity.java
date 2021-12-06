@@ -211,7 +211,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void disableEditText(){
 
-        binding.editFirstname.setEnabled(false);
+        //editText
+        binding.editFirstname.setFocusable(false);
+        binding.editLastname.setFocusable(false);
+        binding.editUsename.setFocusable(false);
+        binding.editBirthDate.setFocusable(false);
+        binding.editNationalityOther.setFocusable(false);
+        binding.editBirthCity.setFocusable(false);
+        binding.editBirthCounty.setFocusable(false);
+        binding.editBirthOther.setFocusable(false);
+        binding.editFullAdress.setFocusable(false);
+        binding.editPostalCode.setFocusable(false);
+        binding.editCity.setFocusable(false);
+        binding.editCountry.setFocusable(false);
+        binding.editPhoneNumber.setFocusable(false);
+        binding.editMailAdress.setFocusable(false);
+        //Checkbox
+        binding.checkboxSupervisory.setFocusable(false);
+        binding.checkBoxSupervised.setFocusable(false);
+        binding.checkboxMale.setFocusable(false);
+        binding.checkboxFemale.setFocusable(false);
+        binding.checkBoxOther.setFocusable(false);
+        binding.checkboxNationalityOther.setFocusable(false);
+        binding.checkboxNationalityFrench.setFocusable(false);
+        binding.checkboxBirthFrance.setFocusable(false);
+        binding.checkboxBirthOther.setFocusable(false);
     }
 
 }
