@@ -2,7 +2,6 @@ package com.example.profilemanager.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.ActionBar;
 import android.content.Intent;
