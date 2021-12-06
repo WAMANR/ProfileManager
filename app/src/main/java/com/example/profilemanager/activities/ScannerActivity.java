@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -40,6 +41,7 @@ public class ScannerActivity extends AppCompatActivity {
         binding = ActivityScannerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setListeners();
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         CodeScannerView scannerView = binding.scannerView;
         mCodeScanner = new CodeScanner(this, scannerView);
 

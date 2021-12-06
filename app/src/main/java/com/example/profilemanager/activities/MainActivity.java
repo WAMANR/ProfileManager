@@ -2,6 +2,7 @@ package com.example.profilemanager.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             loadProfile(extras.getString("id"));
             disableEditText();
         }
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setListeners();
     }
 
@@ -227,15 +229,15 @@ public class MainActivity extends AppCompatActivity {
         binding.editPhoneNumber.setFocusable(false);
         binding.editMailAdress.setFocusable(false);
         //Checkbox
-        binding.checkboxSupervisory.setFocusable(false);
-        binding.checkBoxSupervised.setFocusable(false);
-        binding.checkboxMale.setFocusable(false);
-        binding.checkboxFemale.setFocusable(false);
-        binding.checkBoxOther.setFocusable(false);
-        binding.checkboxNationalityOther.setFocusable(false);
-        binding.checkboxNationalityFrench.setFocusable(false);
-        binding.checkboxBirthFrance.setFocusable(false);
-        binding.checkboxBirthOther.setFocusable(false);
+        binding.checkboxSupervisory.setEnabled(false);
+        binding.checkBoxSupervised.setEnabled(false);
+        binding.checkboxMale.setEnabled(false);
+        binding.checkboxFemale.setEnabled(false);
+        binding.checkBoxOther.setEnabled(false);
+        binding.checkboxNationalityOther.setEnabled(false);
+        binding.checkboxNationalityFrench.setEnabled(false);
+        binding.checkboxBirthFrance.setEnabled(false);
+        binding.checkboxBirthOther.setEnabled(false);
     }
 
 }
