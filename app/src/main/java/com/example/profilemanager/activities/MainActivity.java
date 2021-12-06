@@ -23,6 +23,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.Date;
 import java.util.Map;
@@ -73,6 +78,17 @@ public class MainActivity extends AppCompatActivity {
        });
        binding.icSave.setOnClickListener(v ->
                saveProfile());
+       binding.icDisplayQr.setOnClickListener(v -> {
+           binding.profileScrollView.setVisibility(View.INVISIBLE);
+           binding.icLogout.setVisibility(View.INVISIBLE);
+           binding.icBack.setVisibility(View.VISIBLE);
+           binding.qrCodeDisplay.setVisibility(View.VISIBLE);
+           try {
+               genQrCode();
+           } catch (WriterException e) {
+               e.printStackTrace();
+           }
+       });
     }
 
     private void loadProfile(String id){
@@ -176,6 +192,15 @@ public class MainActivity extends AppCompatActivity {
         else if(binding.checkboxFemale.isChecked()) documentReference.update("gender", "female");
         else if(binding.checkBoxOther.isChecked()) documentReference.update("gender", "other");
         Toast.makeText(getApplicationContext(), "Profile Update successful", Toast.LENGTH_SHORT).show();
+    }
+
+    private void genQrCode() throws WriterException {
+        MultiFormatWriter writer = new MultiFormatWriter();
+        BitMatrix matrix = writer.encode(preferenceManager.getString(Constants.KEY_USER_ID), BarcodeFormat.QR_CODE
+        , 350, 350);
+        BarcodeEncoder encoder = new BarcodeEncoder();
+        Bitmap bitmap = encoder.createBitmap(matrix);
+        binding.qrCodeDisplay.setImageBitmap(bitmap);
 
     }
 

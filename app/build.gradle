@@ -53,4 +53,8 @@ dependencies {
 
     // MultiDex
     implementation 'androidx.multidex:multidex:2.0.1'
+
+    // QR code generator
+    implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
+
 }

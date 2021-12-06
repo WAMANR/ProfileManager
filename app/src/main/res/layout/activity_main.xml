@@ -112,13 +112,33 @@
 
    </FrameLayout>
 
+   <FrameLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+      <ImageView
+          android:id="@+id/qrCodeDisplay"
+          android:layout_width="@dimen/_250sdp"
+          android:layout_height="@dimen/_250sdp"
+          android:layout_gravity="center"
+          android:adjustViewBounds="true"
+          android:visibility="invisible">
+      </ImageView>
+
+   </FrameLayout>
+
+
+
+
+
    <ScrollView
        android:id="@+id/profileScrollView"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:layout_marginTop="@dimen/_70sdp"
        android:overScrollMode="always"
-       android:scrollbars="none">
+       android:scrollbars="none"
+       android:visibility="visible">
 
 
       <androidx.constraintlayout.widget.ConstraintLayout
@@ -137,7 +157,6 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text=" Supervisory staff "
-                android:background="@color/grey"
                 android:textSize="@dimen/_14ssp"
                 android:textColor="@color/primary_text">
             </TextView>
@@ -154,7 +173,6 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text=" Supervised person "
-                android:background="@color/grey"
                 android:textSize="@dimen/_14ssp"
                 android:textColor="@color/primary_text">
             </TextView>
@@ -182,7 +200,6 @@
                 android:text="General Informations"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/_20sdp"
-                android:background="@color/grey"
                 app:layout_constraintTop_toTopOf="parent">
             </TextView>
 
@@ -204,8 +221,7 @@
                       android:text="Gender "
                       android:gravity="right"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <CheckBox
@@ -272,8 +288,7 @@
                       android:text="Lastname "
                       android:gravity="right"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <EditText
@@ -296,8 +311,7 @@
                       android:paddingStart="@dimen/_4sdp"
                       android:paddingEnd="@dimen/_4sdp"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <EditText
@@ -325,8 +339,7 @@
                       android:text="Firstname "
                       android:gravity="right"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <EditText
@@ -349,8 +362,7 @@
                       android:paddingStart="@dimen/_4sdp"
                       android:paddingEnd="@dimen/_4sdp"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <EditText
@@ -378,8 +390,7 @@
                       android:text="Nationality "
                       android:gravity="right"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <CheckBox
@@ -442,8 +453,7 @@
                       android:text="Birth City "
                       android:gravity="right"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <EditText
@@ -466,8 +476,7 @@
                       android:paddingStart="@dimen/_4sdp"
                       android:paddingEnd="@dimen/_4sdp"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <EditText
@@ -495,8 +504,7 @@
                       android:text="Birth Country "
                       android:gravity="right"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <CheckBox
@@ -557,7 +565,6 @@
                 android:text="Adress informations"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/_20sdp"
-                android:background="@color/grey"
                 app:layout_constraintTop_toBottomOf="@+id/generalInformationsContent">
             </TextView>
 
@@ -576,11 +583,11 @@
                   <TextView
                       android:layout_width="@dimen/_80sdp"
                       android:layout_height="wrap_content"
-                      android:text="Full adress "
                       android:gravity="right"
+                      android:text="Full adress "
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
+
                   </TextView>
 
                   <EditText
@@ -609,8 +616,7 @@
                       android:text="Postal code "
                       android:gravity="right"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <EditText
@@ -633,8 +639,7 @@
                       android:paddingStart="@dimen/_4sdp"
                       android:paddingEnd="@dimen/_4sdp"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <EditText
@@ -657,8 +662,7 @@
                       android:paddingStart="@dimen/_4sdp"
                       android:paddingEnd="@dimen/_4sdp"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <EditText
@@ -687,8 +691,7 @@
                       android:text="Phone "
                       android:gravity="right"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <EditText
@@ -711,8 +714,7 @@
                       android:paddingStart="@dimen/_4sdp"
                       android:paddingEnd="@dimen/_4sdp"
                       android:textColor="@color/primary_text"
-                      android:textSize="@dimen/_12ssp"
-                      android:background="@color/grey">
+                      android:textSize="@dimen/_12ssp">
                   </TextView>
 
                   <EditText
