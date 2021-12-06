@@ -9,10 +9,12 @@
         <entry key="app/src/main/res/drawable/background_input.xml" value="0.2140625" />
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.2796875" />
         <entry key="app/src/main/res/drawable/ic_scanner.xml" value="0.2140625" />
+        <entry key="app/src/main/res/drawable/ic_share.xml" value="0.2828125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_scanner.xml" value="0.2635416666666667" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.33" />
+        <entry key="app/src/main/res/xml/filepaths.xml" value="0.1" />
       </map>
     </option>
   </component>

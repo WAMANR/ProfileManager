@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.profilemanager.databinding.ActivitySignInBinding;
 import com.example.profilemanager.utilities.Constants;
