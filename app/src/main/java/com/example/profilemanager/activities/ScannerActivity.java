@@ -2,6 +2,7 @@ package com.example.profilemanager.activities;
 //package net.smallacademy.qrapp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.profilemanager.databinding.ActivityScannerBinding;
+import com.example.profilemanager.utilities.Constants;
 import com.example.profilemanager.utilities.PreferenceManager;
 import com.google.zxing.Result;
 
@@ -70,6 +72,12 @@ public class ScannerActivity extends AppCompatActivity {
     private void setListeners() {
         binding.icBack.setOnClickListener(v -> {
             onBackPressed();
+            finish();
+        });
+        binding.QrCodeTest.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            preferenceManager.putBoolean(Constants.KEY_USER_PROFILE, false);
+            startActivity(intent);
             finish();
         });
     }
