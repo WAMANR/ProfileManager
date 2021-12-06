@@ -2,9 +2,11 @@ package com.example.profilemanager.activities;
 //package net.smallacademy.qrapp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,16 +15,22 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.profilemanager.databinding.ActivityScannerBinding;
+import com.example.profilemanager.utilities.Constants;
 import com.example.profilemanager.utilities.PreferenceManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.Result;
 
+import java.util.Map;
 
 
 public class ScannerActivity extends AppCompatActivity {
 
     private ActivityScannerBinding binding;
     private PreferenceManager preferenceManager;
-    TextView resultData;
     private CodeScanner mCodeScanner;
 
     @Override
@@ -34,7 +42,6 @@ public class ScannerActivity extends AppCompatActivity {
         setListeners();
         CodeScannerView scannerView = binding.scannerView;
         mCodeScanner = new CodeScanner(this, scannerView);
-        resultData = binding.resultsOfQr;
 
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
@@ -42,7 +49,7 @@ public class ScannerActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        resultData.setText(result.getText());
+                        loadQrUserProfile(result.getText());
                     }
                 });
             }
@@ -53,6 +60,27 @@ public class ScannerActivity extends AppCompatActivity {
                 mCodeScanner.startPreview();
             }
         });
+    }
+
+    private void loadQrUserProfile(String qrCodeId){
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection(Constants.KEY_COLLECTION_USERS).document(qrCodeId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            assert documentSnapshot != null;
+                            if(documentSnapshot.exists()) {
+                                Toast.makeText(getApplicationContext(), "exist", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "exist pas", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
@@ -72,14 +100,6 @@ public class ScannerActivity extends AppCompatActivity {
             onBackPressed();
             finish();
         });
-        /*
-        binding.QrCodeTest.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            preferenceManager.putBoolean(Constants.KEY_USER_PROFILE, false);
-            startActivity(intent);
-            finish();
-        });
-         */
     }
 
 
