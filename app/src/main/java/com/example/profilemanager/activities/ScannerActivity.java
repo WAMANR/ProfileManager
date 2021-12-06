@@ -2,19 +2,18 @@ package com.example.profilemanager.activities;
 //package net.smallacademy.qrapp;
 
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.widget.TextView;
-
-import com.example.profilemanager.databinding.ActivityScannerBinding;
-import com.example.profilemanager.utilities.PreferenceManager;
-
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.example.profilemanager.databinding.ActivityScannerBinding;
+import com.example.profilemanager.utilities.PreferenceManager;
 import com.google.zxing.Result;
 
 
@@ -23,9 +22,8 @@ public class ScannerActivity extends AppCompatActivity {
 
     private ActivityScannerBinding binding;
     private PreferenceManager preferenceManager;
-    CodeScanner codeScanner;
-    CodeScannerView scannerView;
     TextView resultData;
+    private CodeScanner mCodeScanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +32,11 @@ public class ScannerActivity extends AppCompatActivity {
         binding = ActivityScannerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setListeners();
-        scannerView = binding.scannerView;
-        codeScanner = new CodeScanner(this, scannerView);
+        CodeScannerView scannerView = binding.scannerView;
+        mCodeScanner = new CodeScanner(this, scannerView);
         resultData = binding.resultsOfQr;
 
-        codeScanner.setDecodeCallback(new DecodeCallback() {
+        mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
                 runOnUiThread(new Runnable() {
@@ -49,6 +47,24 @@ public class ScannerActivity extends AppCompatActivity {
                 });
             }
         });
+        scannerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCodeScanner.startPreview();
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mCodeScanner.startPreview();
+    }
+
+    @Override
+    protected void onPause() {
+        mCodeScanner.releaseResources();
+        super.onPause();
     }
 
     private void setListeners() {
