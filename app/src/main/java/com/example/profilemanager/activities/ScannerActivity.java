@@ -73,14 +73,20 @@ public class ScannerActivity extends AppCompatActivity {
                             DocumentSnapshot documentSnapshot = task.getResult();
                             assert documentSnapshot != null;
                             if(documentSnapshot.exists()) {
-                                Toast.makeText(getApplicationContext(), "exist", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                preferenceManager.putBoolean(Constants.KEY_USER_PROFILE, false);
+                                intent.putExtra("id", qrCodeId);
+                                startActivity(intent);
+                                finish();
                             }
                             else{
-                                Toast.makeText(getApplicationContext(), "exist pas", Toast.LENGTH_SHORT).show();
+
                             }
                         }
                     }
                 });
+        Toast.makeText(getApplicationContext(), "Unable to find this profile", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override

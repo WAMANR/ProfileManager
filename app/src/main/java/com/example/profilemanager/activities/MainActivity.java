@@ -54,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(binding.getRoot());
         if(preferenceManager.getBoolean(Constants.KEY_USER_PROFILE)) loadProfile(preferenceManager.getString(Constants.KEY_USER_ID));
+        else {
+            Bundle extras = getIntent().getExtras();
+            loadProfile(extras.getString("id"));
+        }
         setListeners();
     }
 
