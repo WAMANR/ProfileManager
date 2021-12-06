@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             Bundle extras = getIntent().getExtras();
             loadProfile(extras.getString("id"));
+            disableEditText();
         }
         setListeners();
     }
@@ -208,8 +209,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void shareQrCode(){
-        
+    private void disableEditText(){
+
+        binding.editFirstname.setEnabled(false);
     }
 
 }

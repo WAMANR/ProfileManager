@@ -80,13 +80,13 @@ public class ScannerActivity extends AppCompatActivity {
                                 finish();
                             }
                             else{
+                                Toast.makeText(getApplicationContext(), "Unable to find this profile", Toast.LENGTH_SHORT).show();
 
                             }
                         }
+                        Toast.makeText(getApplicationContext(), "Unable to find this profile", Toast.LENGTH_SHORT).show();
                     }
                 });
-        Toast.makeText(getApplicationContext(), "Unable to find this profile", Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
