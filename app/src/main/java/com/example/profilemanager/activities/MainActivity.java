@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         if(preferenceManager.getBoolean(Constants.KEY_USER_PROFILE)) loadProfile(preferenceManager.getString(Constants.KEY_USER_ID));
         else {
             Bundle extras = getIntent().getExtras();
-            countImageStorage(extras.getString("id"));
+            countImageStorage(extras.getString("id")+"/");
             loadProfile(extras.getString("id"));
             disableEditText();
         }
@@ -169,10 +169,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(ListResult listResult) {
                         for (StorageReference item : listResult.getItems()){
-                            int count = listResult.getItems().size();
+                            Integer count = listResult.getItems().size();
                             if(count > 1){
-                                Toast.makeText(getApplicationContext(), count, Toast.LENGTH_SHORT).show();
-                                binding.imageText.setText("There are "+count+" images to download");
+                                binding.imageText.setText("There are "+count.toString()+" images to download");
                             }
                             else{
                                 binding.imageText.setText("There are 0 images to download");
