@@ -27,11 +27,18 @@ import androidx.core.content.ContextCompat;
 import com.example.profilemanager.databinding.ActivityMainBinding;
 import com.example.profilemanager.utilities.Constants;
 import com.example.profilemanager.utilities.PreferenceManager;
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -47,6 +54,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -137,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private String encodeImage(Bitmap bitmap){
+    /*private String encodeImage(Bitmap bitmap){
         int previewWidth = 150;
         int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
         Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
@@ -145,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
-    }
+    }*/
 
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -153,11 +161,40 @@ public class MainActivity extends AppCompatActivity {
                 if(result.getResultCode() == RESULT_OK){
                     if(result.getData() != null){
                         Uri imageUri = result.getData().getData();
-                        Toast.makeText(getApplicationContext(), imageUri.toString(), Toast.LENGTH_SHORT).show();
+                        storeImage(imageUri);
                     }
                 }
             }
     );
+
+    public void storeImage(Uri imageUri){
+
+        final String randomKey = UUID.randomUUID().toString();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        StorageReference imageRef = storageReference.child(preferenceManager.getString(Constants.KEY_USER_ID) + randomKey);
+        imageRef.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failure", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                        Double progressPercent = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                        Toast.makeText(getApplicationContext(), progressPercent.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -289,6 +326,9 @@ public class MainActivity extends AppCompatActivity {
                 "phoneNumber", binding.editPhoneNumber.getText().toString(),
                 "mail", binding.editMailAdress.getText().toString()
         );
+
+
+
 
         if(binding.checkboxSupervisory.isChecked()) documentReference.update("supervisory", true);
         else documentReference.update("supervisory", false);
