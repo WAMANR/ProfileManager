@@ -190,7 +190,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void storeImage(Uri imageUri){
 
-        StorageReference imageRef = storageReference.child(preferenceManager.getString(Constants.KEY_USER_ID));
+        final String randomKey = UUID.randomUUID().toString();
+        StorageReference imageRef = storageReference.child(preferenceManager.getString(Constants.KEY_USER_ID) +"/"+ randomKey);
         imageRef.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
