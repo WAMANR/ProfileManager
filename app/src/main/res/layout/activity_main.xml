@@ -728,6 +728,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/imageText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="There is x images to download"
@@ -735,7 +736,8 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginLeft="@dimen/_82sdp"
                 app:layout_constraintTop_toBottomOf="@id/ic_add"
-                app:layout_constraintLeft_toLeftOf="parent">
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:visibility="invisible">
 
             </TextView>
 

@@ -36,6 +36,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private PreferenceManager preferenceManager;
     private Bitmap bitmap;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageReference = storage.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +79,13 @@ public class MainActivity extends AppCompatActivity {
             binding.icBack.setVisibility(View.VISIBLE);
             binding.icShare.setVisibility(View.VISIBLE);
             binding.icDownload.setVisibility(View.VISIBLE);
-
+            binding.imageText.setVisibility(View.VISIBLE);
         }
         setContentView(binding.getRoot());
         if(preferenceManager.getBoolean(Constants.KEY_USER_PROFILE)) loadProfile(preferenceManager.getString(Constants.KEY_USER_ID));
         else {
             Bundle extras = getIntent().getExtras();
+            countImageStorage(extras.getString("id"));
             loadProfile(extras.getString("id"));
             disableEditText();
         }
@@ -145,15 +149,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /*private String encodeImage(Bitmap bitmap){
-        int previewWidth = 150;
-        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
-        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(bytes, Base64.DEFAULT);
-    }*/
 
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -167,11 +162,34 @@ public class MainActivity extends AppCompatActivity {
             }
     );
 
+    public void countImageStorage(String id){
+        storageReference.child(id)
+                .listAll()
+                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                    @Override
+                    public void onSuccess(ListResult listResult) {
+                        for (StorageReference item : listResult.getItems()){
+                            int count = listResult.getItems().size();
+                            if(count > 1){
+                                binding.imageText.setText("There are "+count+" images to download");
+                            }
+                            else{
+                                binding.imageText.setText("There are 0 images to download");
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        binding.imageText.setText("There is 0 image to download");
+                    }
+                });
+    }
+
     public void storeImage(Uri imageUri){
 
         final String randomKey = UUID.randomUUID().toString();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference();
         StorageReference imageRef = storageReference.child(preferenceManager.getString(Constants.KEY_USER_ID) + randomKey);
         imageRef.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
