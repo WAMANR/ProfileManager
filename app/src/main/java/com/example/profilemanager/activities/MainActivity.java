@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.OnProgressListener;
@@ -61,9 +63,11 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private PreferenceManager preferenceManager;
-    private Bitmap bitmap;
+    private Bitmap bitmapQr;
+    private String otherUserId;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageReference = storage.getReference();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,17 +82,18 @@ public class MainActivity extends AppCompatActivity {
             binding.icSave.setVisibility(View.INVISIBLE);
             binding.icBack.setVisibility(View.VISIBLE);
             binding.icShare.setVisibility(View.VISIBLE);
-            binding.icDownload.setVisibility(View.VISIBLE);
             binding.imageText.setVisibility(View.VISIBLE);
         }
         setContentView(binding.getRoot());
         if(preferenceManager.getBoolean(Constants.KEY_USER_PROFILE)) loadProfile(preferenceManager.getString(Constants.KEY_USER_ID));
         else {
             Bundle extras = getIntent().getExtras();
-            countImageStorage(extras.getString("id")+"/");
-            loadProfile(extras.getString("id"));
+            otherUserId = extras.getString("id");
+            countImageStorage();
+            loadProfile(otherUserId);
             disableEditText();
         }
+        downloadImages();
         setListeners();
     }
 
@@ -136,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
        binding.icSaveQr.setOnClickListener(v ->
        {
            try {
-               saveImage();
+               saveImage(bitmapQr);
            } catch (IOException e) {
                e.printStackTrace();
            }
@@ -146,6 +151,9 @@ public class MainActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             pickImage.launch(intent);
 
+        });
+        binding.icDownload.setOnClickListener(v -> {
+            downloadImages();
         });
     }
 
@@ -162,16 +170,44 @@ public class MainActivity extends AppCompatActivity {
             }
     );
 
-    public void countImageStorage(String id){
-        storageReference.child(id)
+    public void downloadImages(){
+
+        storageReference.child(preferenceManager.getString(Constants.KEY_USER_ID))
+                .listAll()
+                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                    @Override
+                    public void onSuccess(ListResult listResult) {
+                        for (int i = 0; i < listResult.getItems().size(); i++){
+                            StorageReference imageRef = listResult.getItems().get(i);
+                            long maxBytes = 1024*1024;
+                            imageRef.getBytes(maxBytes).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                @Override
+                                public void onSuccess(byte[] bytes) {
+                                    Toast.makeText(getApplicationContext(), "Fine", Toast.LENGTH_SHORT).show();
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0, bytes.length);
+                                    try {
+                                        saveImage(bitmap);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+    }
+
+    public void countImageStorage(){
+        storageReference.child(otherUserId+"/")
                 .listAll()
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {
                     @Override
                     public void onSuccess(ListResult listResult) {
                         for (StorageReference item : listResult.getItems()){
                             Integer count = listResult.getItems().size();
-                            if(count > 1){
+                            if(count >= 1){
                                 binding.imageText.setText("There are "+count.toString()+" images to download");
+                                binding.icDownload.setVisibility(View.VISIBLE);
                             }
                             else{
                                 binding.imageText.setText("There are 0 images to download");
@@ -226,9 +262,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void saveImage() throws IOException {
+    private void saveImage(Bitmap bitmap) throws IOException {
 
         OutputStream fos;
+        final String randomKey = UUID.randomUUID().toString();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ContentResolver resolver = getApplicationContext().getContentResolver();
@@ -248,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
                 file.mkdir();
             }
 
-            File image = new File(imagesDir, preferenceManager.getString(Constants.KEY_USER_ID) + ".png");
+            File image = new File(imagesDir, preferenceManager.getString(Constants.KEY_USER_ID) + randomKey+ ".png");
             fos = new FileOutputStream(image);
 
         }
@@ -368,8 +405,8 @@ public class MainActivity extends AppCompatActivity {
         BitMatrix matrix = writer.encode(preferenceManager.getString(Constants.KEY_USER_ID), BarcodeFormat.QR_CODE
         , 350, 350);
         BarcodeEncoder encoder = new BarcodeEncoder();
-        bitmap = encoder.createBitmap(matrix);
-        binding.qrCodeDisplay.setImageBitmap(bitmap);
+        bitmapQr = encoder.createBitmap(matrix);
+        binding.qrCodeDisplay.setImageBitmap(bitmapQr);
 
     }
 
