@@ -7,14 +7,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -34,10 +38,12 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 import java.util.Objects;
@@ -57,9 +63,11 @@ public class MainActivity extends AppCompatActivity {
             binding.icLogout.setVisibility(View.INVISIBLE);
             binding.icScanner.setVisibility(View.INVISIBLE);
             binding.icDisplayQr.setVisibility(View.INVISIBLE);
+            binding.icAdd.setVisibility(View.INVISIBLE);
             binding.icSave.setVisibility(View.INVISIBLE);
             binding.icBack.setVisibility(View.VISIBLE);
             binding.icShare.setVisibility(View.VISIBLE);
+            binding.icDownload.setVisibility(View.VISIBLE);
 
         }
         setContentView(binding.getRoot());
@@ -121,6 +129,46 @@ public class MainActivity extends AppCompatActivity {
                e.printStackTrace();
            }
        });
+        binding.icAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            pickImage.launch(intent);
+
+        });
+    }
+
+    private String encodeImage(Bitmap bitmap){
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if(result.getResultCode() == RESULT_OK){
+                    if(result.getData() != null){
+                        Uri imageUri = result.getData().getData();
+                        Toast.makeText(getApplicationContext(), imageUri.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
+
+    @Override
+    public void onBackPressed() {
+        if(binding.logoutConfirmation.getVisibility() == View.VISIBLE) binding.logoutConfirmation.setVisibility(View.INVISIBLE);
+        else if(preferenceManager.getBoolean(Constants.KEY_USER_PROFILE) && binding.icBack.getVisibility() == View.INVISIBLE) binding.logoutConfirmation.setVisibility(View.VISIBLE);
+        else {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            preferenceManager.putBoolean(Constants.KEY_USER_PROFILE, true);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void saveImage() throws IOException {
@@ -130,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ContentResolver resolver = getApplicationContext().getContentResolver();
             ContentValues contentValues = new ContentValues();
-            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "test");
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "profile");
             contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/png");
             contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/" + preferenceManager.getString(Constants.KEY_USER_ID));
             Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);

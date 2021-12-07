@@ -687,6 +687,58 @@
 
             </LinearLayout>
 
+            <FrameLayout
+                android:id="@+id/ic_add"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                app:layout_constraintTop_toBottomOf="@id/adressInformationsContent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_130sdp"
+                android:background="@drawable/background_corner_round"
+                android:visibility="visible">
+
+               <androidx.appcompat.widget.AppCompatImageView
+                   android:layout_width="@dimen/_40sdp"
+                   android:layout_height="@dimen/_40sdp"
+                   android:layout_gravity="center"
+                   android:src="@drawable/ic_add">
+               </androidx.appcompat.widget.AppCompatImageView>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/ic_download"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                app:layout_constraintTop_toBottomOf="@id/adressInformationsContent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_130sdp"
+                android:background="@drawable/background_corner_round"
+                android:visibility="invisible">
+
+               <androidx.appcompat.widget.AppCompatImageView
+                   android:layout_width="@dimen/_40sdp"
+                   android:layout_height="@dimen/_40sdp"
+                   android:layout_gravity="center"
+                   android:src="@drawable/ic_download">
+               </androidx.appcompat.widget.AppCompatImageView>
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="There is x images to download"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_82sdp"
+                app:layout_constraintTop_toBottomOf="@id/ic_add"
+                app:layout_constraintLeft_toLeftOf="parent">
+
+            </TextView>
+
 
          </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -706,45 +758,42 @@
           android:id="@+id/logout_confirmation"
           android:layout_width="@dimen/_300sdp"
           android:layout_height="@dimen/_100sdp"
-          android:background="@drawable/background_corner_round"
           android:layout_gravity="center"
+          android:background="@drawable/background_corner_round"
           android:visibility="invisible">
 
          <TextView
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:gravity="center_horizontal"
              android:layout_marginTop="@dimen/_10sdp"
+             android:gravity="center_horizontal"
              android:text="@string/are_you_sure_to_logout"
              android:textColor="@color/white"
-             android:textSize="@dimen/_22sdp">
-         </TextView>
+             android:textSize="@dimen/_22sdp" />
 
          <com.google.android.material.button.MaterialButton
              android:id="@+id/logout_yes"
              android:layout_width="@dimen/_100sdp"
              android:layout_height="@dimen/_45sdp"
-             android:backgroundTint="@color/white"
              android:layout_gravity="bottom"
-             android:text="@string/yes"
-             android:textSize="@dimen/_20sdp"
-             android:textColor="@color/primary"
+             android:layout_marginLeft="@dimen/_30sdp"
              android:layout_marginBottom="@dimen/_10sdp"
-             android:layout_marginLeft="@dimen/_30sdp">
-         </com.google.android.material.button.MaterialButton>
+             android:backgroundTint="@color/white"
+             android:text="@string/yes"
+             android:textColor="@color/primary"
+             android:textSize="@dimen/_20sdp" />
 
          <com.google.android.material.button.MaterialButton
              android:id="@+id/logout_no"
              android:layout_width="@dimen/_100sdp"
              android:layout_height="@dimen/_45sdp"
-             android:backgroundTint="@color/white"
              android:layout_gravity="right"
-             android:text="@string/no"
-             android:textSize="@dimen/_20sdp"
-             android:textColor="@color/primary"
              android:layout_marginTop="@dimen/_45sdp"
-             android:layout_marginRight="@dimen/_30sdp">
-         </com.google.android.material.button.MaterialButton>
+             android:layout_marginRight="@dimen/_30sdp"
+             android:backgroundTint="@color/white"
+             android:text="@string/no"
+             android:textColor="@color/primary"
+             android:textSize="@dimen/_20sdp" />
 
       </FrameLayout>
 
@@ -804,6 +853,8 @@
 
 
    </FrameLayout>
+
+
 
 
 
