@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                         for (StorageReference item : listResult.getItems()){
                             int count = listResult.getItems().size();
                             if(count > 1){
+                                Toast.makeText(getApplicationContext(), count, Toast.LENGTH_SHORT).show();
                                 binding.imageText.setText("There are "+count+" images to download");
                             }
                             else{
@@ -189,8 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void storeImage(Uri imageUri){
 
-        final String randomKey = UUID.randomUUID().toString();
-        StorageReference imageRef = storageReference.child(preferenceManager.getString(Constants.KEY_USER_ID) + randomKey);
+        StorageReference imageRef = storageReference.child(preferenceManager.getString(Constants.KEY_USER_ID));
         imageRef.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override

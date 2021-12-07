@@ -731,7 +731,6 @@
                 android:id="@+id/imageText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="There is x images to download"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginLeft="@dimen/_82sdp"
