@@ -1,10 +1,17 @@
 package com.example.profilemanager.activities;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,6 +34,11 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.Objects;
 
@@ -93,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
            binding.icBack.setVisibility(View.VISIBLE);
            binding.qrCodeDisplay.setVisibility(View.VISIBLE);
            binding.icSave.setVisibility(View.INVISIBLE);
-           binding.icShareQr.setVisibility(View.VISIBLE);
+           binding.icSaveQr.setVisibility(View.VISIBLE);
            binding.icDisplayQr.setVisibility(View.INVISIBLE);
            try {
                genQrCode();
@@ -101,6 +113,46 @@ public class MainActivity extends AppCompatActivity {
                e.printStackTrace();
            }
        });
+       binding.icSaveQr.setOnClickListener(v ->
+       {
+           try {
+               saveImage();
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+       });
+    }
+
+    private void saveImage() throws IOException {
+
+        OutputStream fos;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ContentResolver resolver = getApplicationContext().getContentResolver();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "test");
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/png");
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, "DCIM/" + preferenceManager.getString(Constants.KEY_USER_ID));
+            Uri imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            fos = resolver.openOutputStream(imageUri);
+        } else {
+            String imagesDir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DCIM).toString() + File.separator + "Profile Manager";
+
+            File file = new File(imagesDir);
+
+            if (!file.exists()) {
+                file.mkdir();
+            }
+
+            File image = new File(imagesDir, preferenceManager.getString(Constants.KEY_USER_ID) + ".png");
+            fos = new FileOutputStream(image);
+
+        }
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        Toast.makeText(getApplicationContext(), "Qr Code saved in your gallery", Toast.LENGTH_SHORT).show();
+        fos.flush();
+        fos.close();
     }
 
     private void loadProfile(String id){
@@ -124,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
                 //task unsuccessful
             }
         });
-
     }
 
     private void enterUserData(Map documentData){
