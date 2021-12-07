@@ -3,7 +3,6 @@ package com.example.profilemanager.activities;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,8 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,7 +25,6 @@ import androidx.core.content.ContextCompat;
 import com.example.profilemanager.databinding.ActivityMainBinding;
 import com.example.profilemanager.utilities.Constants;
 import com.example.profilemanager.utilities.PreferenceManager;
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,7 +32,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.OnProgressListener;
@@ -48,12 +43,9 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 import java.util.Objects;
@@ -289,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        Toast.makeText(getApplicationContext(), "Qr Code saved in your gallery", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "File saved successfully", Toast.LENGTH_SHORT).show();
         fos.flush();
         fos.close();
     }
