@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
             loadProfile(otherUserId);
             disableEditText();
         }
-        downloadImages();
         setListeners();
     }
 
@@ -172,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void downloadImages(){
 
-        storageReference.child(preferenceManager.getString(Constants.KEY_USER_ID))
+        storageReference.child(otherUserId+"/")
                 .listAll()
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {
                     @Override
